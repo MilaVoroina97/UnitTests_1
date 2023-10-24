@@ -1,6 +1,9 @@
 package org.example;
 
 public class Calculator {
+    public Calculator(){
+
+    }
     public  int calculation(int firstOperand, int secondOperand, char operator) {
         int result;
         switch (operator) {
@@ -26,21 +29,15 @@ public class Calculator {
         return result;
     }
 
-    /**
-     * В классе Calculator создайте метод calculateDiscount, который принимает сумму покупки и процент скидки и
-     * возвращает сумму с учетом скидки. Ваша задача - проверить этот метод с использованием библиотеки AssertJ.
-     * Если метод calculateDiscount получает недопустимые аргументы, он должен выбрасывать исключение ArithmeticException.
-     * Не забудьте написать тесты для проверки этого поведения.
-     */
 
     public double calculateDiscount(double price, double discount) {
 
         if (price < 0 || discount < 0 || discount > 100) {
 
             throw new ArithmeticException("Invalid arguments");
-        }else{
-
-            return price * (discount / 100);
         }
+
+        return price * (discount / 100);
+
     }
 }
