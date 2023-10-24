@@ -32,12 +32,14 @@ public class Calculator {
 
     public double calculateDiscount(double price, double discount) {
 
-        if (price < 0 || discount < 0 || discount > 100) {
+        if (price < 0)
+            throw new ArithmeticException("Price cannot be less than 0");
+        if(discount > 100)
+            throw new ArithmeticException("Discount cannot be more than 100%");
+        if(discount < 0)
+            throw new ArithmeticException("Discount cannot be less than 0");
 
-            throw new ArithmeticException("Invalid arguments");
-        }
-
-        return price * (discount / 100);
+        return price - (price * discount / 100);
 
     }
 }
