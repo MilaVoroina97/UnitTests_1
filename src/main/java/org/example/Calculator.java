@@ -1,7 +1,7 @@
 package org.example;
 
 public class Calculator {
-    public static int calculation(int firstOperand, int secondOperand, char operator) {
+    public  int calculation(int firstOperand, int secondOperand, char operator) {
         int result;
         switch (operator) {
             case '+':
@@ -33,7 +33,7 @@ public class Calculator {
      * Не забудьте написать тесты для проверки этого поведения.
      */
 
-    public static double calculateDiscount(double price, double discount) {
+    public double calculateDiscount(double price, double discount) {
 
         if (price < 0 || discount < 0 || discount > 100) {
 
