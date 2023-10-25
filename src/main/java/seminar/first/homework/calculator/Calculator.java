@@ -1,4 +1,4 @@
-package org.example;
+package seminar.first.homework.calculator;
 
 public class Calculator {
     public Calculator(){
