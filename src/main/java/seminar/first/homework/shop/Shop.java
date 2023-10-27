@@ -76,7 +76,19 @@ public class Shop {
 
 
     public Product getMostExpensiveProduct(){
-        return null;
+
+        Product mostExpensiveProduct = null;
+        double maxPrice = Double.MIN_VALUE;
+        for(Product product : products){
+
+            if(product.getPrice() > maxPrice){
+
+                maxPrice = product.getPrice();
+                mostExpensiveProduct = product;
+            }
+        }
+        return mostExpensiveProduct;
+
     }
 
     @Override

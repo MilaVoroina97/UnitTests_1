@@ -4,11 +4,11 @@ public class Product {
 
     private String name;
 
-    private Integer price;
+    private Double price;
 
-    private Integer amount;
+    private Double amount;
 
-    public Product(String name,Integer price,Integer amount){
+    public Product(String name,Double price,Double amount){
 
         this.name = name;
         this.price = price;
@@ -23,19 +23,19 @@ public class Product {
         this.name = name;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
-    public Integer getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

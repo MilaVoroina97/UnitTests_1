@@ -8,11 +8,11 @@ import java.util.List;
 public class ShopTest {
 
     public static void main(String[] args) {
-        Product product = new Product("apple",100,90);
-        Product product2 = new Product("banana",8,6);
-        Product product3 = new Product("bread",57,65);
-        Product product4 = new Product("lime",3,86);
-        Product product5 = new Product("milk",32,900);
+        Product product = new Product("apple",100.0,90.0);
+        Product product2 = new Product("banana",8.0,6.0);
+        Product product3 = new Product("bread",57.0,65.0);
+        Product product4 = new Product("lime",3.0,86.0);
+        Product product5 = new Product("milk",32.0,900.0);
 
         Shop shop = new Shop();
         shop.addProduct(product);
@@ -26,7 +26,13 @@ public class ShopTest {
 //        Collections.sort(shop.getProducts(), new ProductComparator(SortType.Ascending));
 
         shop.sortProductsByPrice2(new ProductComparator(SortType.Ascending));
-        System.out.println(shop.getProducts().toString());
+        for(Product newProduct : shop.getProducts()){
+            System.out.println(newProduct.toString());
+        }
+
+
+        System.out.println(shop.getMostExpensiveProduct());
+
 
 
 
