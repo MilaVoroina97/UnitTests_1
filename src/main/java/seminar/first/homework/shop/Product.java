@@ -46,7 +46,7 @@ public class Product {
         if(obj instanceof Product){
 
             Product product = (Product) obj;
-            return product.name.equals(this.name) && product.price == this.price;
+            return product.name.equals(this.name) && product.price.equals(this.price);
         }
         return false;
     }
