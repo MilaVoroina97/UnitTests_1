@@ -1,9 +1,15 @@
 package seminar.first.homework.calculator;
 
+import java.util.Scanner;
+
 public class Calculator {
+
+    private final Scanner scanner = new Scanner(System.in);
     public Calculator(){
 
+
     }
+
     public  int calculation(int firstOperand, int secondOperand, char operator) {
         int result;
         switch (operator) {
@@ -27,6 +33,30 @@ public class Calculator {
                 throw new IllegalStateException("Unexpected value operator: " + operator);
         }
         return result;
+    }
+
+    public char getOperation(){
+        System.out.println("Enter the operation: ");
+        return this.scanner.next().charAt(0);
+    }
+
+    public int getOperand(){
+
+        System.out.println("Enter the operand: ");
+        int operand = 0;
+        if(scanner.hasNextInt())
+        {
+             operand = scanner.nextInt();
+        }else{
+            System.out.println("You need to enter only numbers, please, try again. ");
+            if(scanner.hasNextInt()){
+                scanner.next();
+                operand = getOperand();
+            }else{
+                throw new IllegalStateException("Incorrect data enter. ");
+            }
+        }
+        return operand;
     }
 
 
