@@ -1,3 +1,5 @@
+package seminarOne;
+
 import org.junit.jupiter.api.Test;
 import seminar.first.homework.calculator.Calculator;
 

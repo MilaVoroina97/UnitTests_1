@@ -1,6 +1,7 @@
-package seminarTwo;
+package seminarTwo.lection;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.provider.ValueSource;
 import seminar.two.lection.Cart;
 import seminar.two.lection.Product;
 import seminar.two.lection.Shop;
@@ -9,10 +10,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.params.ParameterizedTest;
 
 public class ShopTest {
@@ -137,23 +141,32 @@ public class ShopTest {
      * <br><b>Ожидаемый результат:</b>
      * Больше такой продукт заказать нельзя, он не появляется на полке
      */
-    @Test
-    void lastProductsDisappearFromStore() {
-        Shop shop = new Shop(getStoreItems());
-        Cart cart = new Cart(shop);
-        int i = 0;
-        while(i < 10){
-            cart.addProductToCartByID(1);
-            i++;
-        }
-
-        assertThatThrownBy(() -> cart.addProductToCartByID(1)).isInstanceOf(IllegalStateException.class);
-    }
+//    @Test
+//    void lastProductsDisappearFromStore() {
+//        Shop shop = new Shop(getStoreItems());
+//        Cart cart = new Cart(shop);
+//
+//        cart.addProductToCartByID(1);
+//        cart.addProductToCartByID(1);
+//        cart.addProductToCartByID(1);
+//        cart.addProductToCartByID(1);
+//        cart.addProductToCartByID(1);
+//        cart.addProductToCartByID(1);
+//        cart.addProductToCartByID(1);
+//        cart.addProductToCartByID(1);
+//        cart.addProductToCartByID(1);
+//        cart.addProductToCartByID(1);
+//
+//
+//        assertThatThrownBy(() -> cart.addProductToCartByID(1))
+//                .isInstanceOf(IllegalStateException.class);
+//    }
 
     @Test
     void lastProductsDisappearFromStoreTwo() {
         Shop shop = new Shop(getStoreItems());
         Cart cart = new Cart(shop);
+
         cart.addProductToCartByID(1);
         cart.addProductToCartByID(1);
         cart.addProductToCartByID(1);
@@ -165,13 +178,14 @@ public class ShopTest {
         cart.addProductToCartByID(1);
         cart.addProductToCartByID(1);
 
-        /*Второй способ : проверка через перехватчик потока
-        * */
         System.setOut(new PrintStream(output));
         cart.addProductToCartByID(1);
-        assertEquals("Этого товара нет в наличии", output.toString());
+        final String cleanOutput = output.toString().replaceAll("\n", "").replaceAll("\r", "");
+        String expected = "Этого товара нет в наличии";
+        assertThat(expected).isEqualTo(cleanOutput);
 
     }
+
 
     /**
      * 2.6. Нужно написать юнит-тест для проверки следующей <b>ситуации</b>:
@@ -201,15 +215,20 @@ public class ShopTest {
      * *Сделать тест параметризованным
      */
 
-//    @ParameterizedTest
-//    void incorrectProductSelectionCausesException() {
-//        // Arrange (Подготовка)
-//
-//        // Act (Выполнение)
-//
-//        // Assert (Проверка утверждения)
-//
-//    }
+    /* Параметризированный тест нужен для:
+
+    1. Тестирования множественных и граничных значений
+    * */
+    @ParameterizedTest
+    @ValueSource(ints = {-1, 13})
+    void incorrectProductSelectionCausesException(int number) {
+
+        Shop shop = new Shop(getStoreItems());
+        Cart cart = new Cart(shop);
+        RuntimeException runtimeException = assertThrows(RuntimeException.class,() -> cart.addProductToCartByID(number));
+        assertEquals(runtimeException.getMessage(), "Не найден продукт с id: " + number);
+//        assertThatThrownBy(() -> cart.addProductToCartByID(number)).isInstanceOf(RuntimeException.class);
+    }
 
     /**
      * 2.8. Нужно написать юнит-тест для проверки следующей <b>ситуации</b>:
@@ -218,27 +237,27 @@ public class ShopTest {
      */
     @Test
     void incorrectProductRemoveCausesException() {
-        // Arrange (Подготовка)
-
-        // Act (Выполнение)
-
-        // Assert (Проверка утверждения)
+        Shop shop = new Shop(getStoreItems());
+        Cart cart = new Cart(shop);
+        assertThatThrownBy(() -> cart.removeProductByID(8)).isInstanceOf(RuntimeException.class).
+                hasMessage("В корзине не найден продукт с id: 8");
 
     }
 
     /**
      * 2.9. Нужно восстановить тест
      */
-    // boolean Сломанный-Тест() {
-    //          // Assert (Проверка утверждения)
-    //          assertThat(cart.getTotalPrice()).isEqualTo(cart.getTotalPrice());
-    //          // Act (Выполнение)
-    //          cart.addProductToCartByID(2); // 250
-    //          cart.addProductToCartByID(2); // 250
-    //          // Arrange (Подготовка)
-    //          Shop shop = new Shop(getStoreItems());
-    //          Cart cart = new Cart(shop);
-    //      }
+
+    @Test
+     void СломанныйТест() {
+         Shop shop = new Shop(getStoreItems());
+         Cart cart = new Cart(shop);
+
+         cart.addProductToCartByID(2); // 250
+         cart.addProductToCartByID(2); // 250
+         assertThat(cart.getTotalPrice()).isEqualTo(250 + 250);
+
+     }
 
 
     /**
@@ -249,12 +268,17 @@ public class ShopTest {
      * <br> 4. После проверки работоспособности теста, его нужно выключить
      */
     @Test
+    @DisplayName("Advanced test for calculating TotalPrice")
+    @RepeatedTest(10)
+    @Timeout(value = 70,unit = TimeUnit.MILLISECONDS)
+//    @Disabled
     void priceCartIsCorrectCalculatedExt() {
-        // Arrange (Подготовка)
+        Shop shop = new Shop(getStoreItems());
+        Cart cart = new Cart(shop);
+        cart.addProductToCartByID(2); // 250
+        cart.addProductToCartByID(2); // 250
+        assertThat(cart.getTotalPrice()).isEqualTo(250 + 250);
 
-        // Act (Выполнение)
-
-        // Assert (Проверка утверждения)
 
     }
 }
