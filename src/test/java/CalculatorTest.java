@@ -89,4 +89,20 @@ public class CalculatorTest {
         System.setOut(null);
     }
 
+    /* Проверка вычислений на пограничные значения:
+    * */
+
+    @Test
+    public void testCalculateMaxAndMinNumber(){
+
+        Calculator calculator = new Calculator();
+        assertThat(calculator.calculation(Integer.MAX_VALUE - 1, 1 ,'+')).
+                isEqualTo(Integer.MAX_VALUE);
+        assertThat(calculator.calculation(Integer.MIN_VALUE + 1,  - 1, '+')).
+                isEqualTo(Integer.MIN_VALUE);
+    }
+
+
+
+
 }

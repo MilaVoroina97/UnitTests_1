@@ -35,9 +35,28 @@ public class Calculator {
         return result;
     }
 
-    public char getOperation(){
-        System.out.println("Enter the operation: ");
-        return this.scanner.next().charAt(0);
+    public String getOperation(){
+
+
+        while (true){
+
+            System.out.println("Enter the operation: ");
+            String operation = scanner.next();
+            if(operation.equals("+") || operation.equals("-") || operation.equals("*") || operation.equals("/")){
+
+                try{
+                    return operation;
+
+                }catch (IllegalStateException ex){
+                    System.out.println("Input is not a number, continue");
+                }
+            }else{
+                System.out.println("Incorrect data,try again: ");
+            }
+        }
+
+
+
     }
 
     public int getOperand(){
