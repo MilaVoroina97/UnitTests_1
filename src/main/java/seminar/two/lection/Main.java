@@ -5,10 +5,6 @@ import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) {
-        Shop shop = new Shop(getStoreItems());
-        new TestUserInterface(shop);
-    }
 
     // Создаем набор продуктов для магазина:
     /*

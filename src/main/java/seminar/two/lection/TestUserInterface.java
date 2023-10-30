@@ -2,18 +2,20 @@ package seminar.two.lection;
 
 import java.util.List;
 import java.util.Scanner;
-
+import java.io.PrintStream;
+import java.io.InputStream;
 public class TestUserInterface {
 
     Shop shop;
     Cart cart;
+
+
 
     private int userChoice = 0;
 
     public TestUserInterface(Shop shop) {
         this.shop = shop;
         cart = new Cart(shop);
-        menu();
     }
 
     public void startScreen() {
@@ -94,7 +96,7 @@ public class TestUserInterface {
 //        return userChoice;
 //    }
 
-    private int getUserInput() throws NumberFormatException {
+    public int getUserInput() throws NumberFormatException {
         while (true){
             System.out.println("Enter a whole number.");
             Scanner in = new Scanner(System.in);

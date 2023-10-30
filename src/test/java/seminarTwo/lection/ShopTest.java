@@ -2,11 +2,14 @@ package seminarTwo.lection;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.provider.ValueSource;
+import seminar.first.homework.calculator.Calculator;
 import seminar.two.lection.Cart;
 import seminar.two.lection.Product;
 import seminar.two.lection.Shop;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.params.ParameterizedTest;
+import seminar.two.lection.TestUserInterface;
 
 public class ShopTest {
 
@@ -281,4 +285,25 @@ public class ShopTest {
 
 
     }
+
+    @Test
+    void testUserMenu(){
+
+        Shop shop = new Shop(getStoreItems());
+        Cart cart = new Cart(shop);
+        String testValue = "k";
+        ByteArrayInputStream in = new ByteArrayInputStream(testValue.getBytes());
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        InputStream inputStream = System.in;
+        System.setIn(in);
+        System.setOut(new PrintStream(out));
+
+        TestUserInterface userInterface = new TestUserInterface(shop);
+        assertThat(userInterface.getUserInput()).isEqualTo("You need to enter only integer number");
+        System.setIn(inputStream);
+        System.setOut(null);
+
+    }
+
+
 }
